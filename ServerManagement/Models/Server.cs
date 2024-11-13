@@ -1,11 +1,18 @@
-﻿namespace ServerManagement.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ServerManagement.Models;
 
 public class Server
 {
     public int ServerId { get; set; }
+
     public bool IsOnline { get; set; }
-    public string Name { get; set; } = string.Empty;
-    public string City { get; set; } = string.Empty;
+
+    [Required]
+    public required string Name { get; set; }//the required keyword is not working
+
+    [Required]
+    public required string City { get; set; }
 
     public Server()
     {

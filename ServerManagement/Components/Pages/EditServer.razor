@@ -3,7 +3,10 @@
 <br />
 @if (Server is not null)
 {
-    <EditForm Model="Server" FormName="formEditServer" OnSubmit="SubmitEdit">
+    <EditForm Model="Server" FormName="formEditServer" OnValidSubmit="SubmitEdit">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        @* <ValidationSummary></ValidationSummary> *@
+
         <InputNumber @bind-Value="Server.ServerId" hidden></InputNumber>
         <div class="row mb-3">
             <div class="col-2">
@@ -11,6 +14,8 @@
             </div>
             <div class="col-6">
                 <InputText @bind-Value="Server.Name" class="form-control"></InputText>
+                <br />
+                <ValidationMessage For="() => Server.Name"></ValidationMessage>
             </div>
         </div>
 
@@ -20,6 +25,8 @@
             </div>
             <div class="col-6">
                 <InputText @bind-Value="Server.City" class="form-control"></InputText>
+                <br />
+                <ValidationMessage For="() => Server.City"></ValidationMessage>
             </div>
         </div>
 
