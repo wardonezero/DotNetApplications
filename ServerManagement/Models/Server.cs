@@ -9,10 +9,10 @@ public class Server
     public bool IsOnline { get; set; }
 
     [Required]
-    public required string Name { get; set; }//the required keyword is not working
+    public string Name { get; set; }//the required keyword is not working
 
     [Required]
-    public required string City { get; set; }
+    public string City { get; set; }
 
     public Server()
     {
