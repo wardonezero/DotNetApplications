@@ -1,6 +1,12 @@
 ﻿@page "/servers"
 <h3>Servers</h3>
 <br />
+@foreach (var city in CitiesRepository.GetCities())
+{
+    <button type="button" class="btn btn-primary">@city</button>
+    <text>&nbsp;</text>
+}
+<br />
 <ul>
     @foreach (var server in servers)
     {
@@ -11,5 +17,5 @@
 </ul>
 
 @code {
-    private List<Server> servers = ServerRepository.GetServersByCity("Chicago");
+    private List<Server> servers = ServersRepository.GetServersByCity("Chicago");
 }

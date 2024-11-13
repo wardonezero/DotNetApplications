@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 namespace ServerManagement.Models;
 
-public static class ServerRepository
+public static class ServersRepository
 {
 
     private static List<Server> _servers =
