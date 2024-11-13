@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 namespace ServerManagement.Models;
 
-public class ServerRepository
+public static class ServerRepository
 {
 
     private static List<Server> _servers =
@@ -27,21 +27,7 @@ public class ServerRepository
         new(){ ServerId = 16, Name = "Server16", City = "Peoria" }
     ];
 
-    public Server this[int index]
-    {
-        get
-        {
-            if (index < 0 || index >= _servers.Count)
-                throw new IndexOutOfRangeException("Index is out of range.");
-            return _servers[index];
-        }
-        set
-        {
-            if (index < 0 || index >= _servers.Count)
-                throw new IndexOutOfRangeException("Index is out of range.");
-            _servers[index] = value;
-        }
-    }
+    public static Server GetById(int id) => _servers[id];
 
     public static void AddServer(Server server)
     {
@@ -52,7 +38,7 @@ public class ServerRepository
 
     public static List<Server> GetSeryres() => _servers;
 
-    public static List<Server> GetServersByCity(string cityName) 
+    public static List<Server> GetServersByCity(string cityName)
         => _servers.Where(s => s.City.Equals(cityName, StringComparison.OrdinalIgnoreCase)).ToList();
 
     public static void UpdateServer(int serverId, Server server)
