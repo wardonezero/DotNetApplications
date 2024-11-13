@@ -27,7 +27,7 @@ public static class ServersRepository
         new(){ ServerId = 16, Name = "Server16", City = "Peoria" }
     ];
 
-    public static Server GetById(int id) => _servers[id];
+    public static Server? GetServerById(int id) => _servers.Where(s => s.ServerId == id).FirstOrDefault();
 
     public static void AddServer(Server server)
     {
@@ -36,7 +36,7 @@ public static class ServersRepository
         _servers.Add(server);
     }
 
-    public static List<Server> GetSeryres() => _servers;
+    public static List<Server> GetServres() => _servers;
 
     public static List<Server> GetServersByCity(string cityName)
         => _servers.Where(s => s.City.Equals(cityName, StringComparison.OrdinalIgnoreCase)).ToList();

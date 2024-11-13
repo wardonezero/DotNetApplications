@@ -1,9 +1,23 @@
 ﻿@page "/servers/{id:int}"
 <h3>Edit Server</h3>
 <br />
-@Id
+@if (server is not null)
+{
+    <p>
+        @server.Name @server.City @server.IsOnline
+    </p>
+}
+else
+{
+    <p>Not Found</p>
+}
+
+<br />
+<a href="/servers" class="btn btn-primary">Go back</a>
 
 @code {
     [Parameter]
     public int Id { get; set; }
+    private Server? server;
+    protected override void OnParametersSet() => server = ServersRepository.GetServerById(this.Id);
 }
