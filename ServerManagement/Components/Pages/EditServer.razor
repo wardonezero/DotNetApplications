@@ -1,15 +1,16 @@
 ﻿@page "/servers/{id:int}"
 <h3>Edit Server</h3>
 <br />
-@if (server is not null)
+@if (Server is not null)
 {
-    <EditForm Model="server">
+    <EditForm Model="Server" FormName="formEditServer" OnSubmit="SubmitEdit">
+        <InputNumber @bind-Value="Server.ServerId" hidden></InputNumber>
         <div class="row mb-3">
             <div class="col-2">
                 <label class="col-form-label">Name</label>
             </div>
             <div class="col-6">
-                <InputText @bind-Value="server.Name" class="form-control"></InputText>
+                <InputText @bind-Value="Server.Name" class="form-control"></InputText>
             </div>
         </div>
 
@@ -18,7 +19,7 @@
                 <label class="col-form-label">City</label>
             </div>
             <div class="col-6">
-                <InputText @bind-Value="server.City" class="form-control"></InputText>
+                <InputText @bind-Value="Server.City" class="form-control"></InputText>
             </div>
         </div>
 
@@ -27,10 +28,12 @@
                 <label class="col-form-label">Online</label>
             </div>
             <div class="col-6">
-                <InputCheckbox @bind-Value="server.IsOnline" class="form-check-input"></InputCheckbox>
+                <InputCheckbox @bind-Value="Server.IsOnline" class="form-check-input"></InputCheckbox>
 
             </div>
         </div>
+        <br />
+        <button class="btn btn-primary" type="submit">Update</button>
     </EditForm>
 }
 else
@@ -44,6 +47,12 @@ else
 @code {
     [Parameter]
     public int Id { get; set; }
-    private Server? server;
-    protected override void OnParametersSet() => server = ServersRepository.GetServerById(this.Id);
+    [SupplyParameterFromForm]
+    private Server? Server { get; set; }
+    protected override void OnParametersSet() => Server ??= ServersRepository.GetServerById(this.Id);
+    private void SubmitEdit()
+    {
+        if (Server is not null)
+            ServersRepository.UpdateServer(Server.ServerId, Server);
+    }
 }
