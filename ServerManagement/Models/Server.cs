@@ -9,8 +9,8 @@ public class Server
 
     public Server()
     {
-        Random random = new Random();
+        Random random = new();
         int randomOnOff = random.Next(0, 2);
-        IsOnline = randomOnOff == 1 ? true : false;
+        IsOnline = randomOnOff == 1;
     }
 }
