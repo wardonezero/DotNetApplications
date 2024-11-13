@@ -23,7 +23,7 @@ public static class ServersRepository
         new(){ ServerId = 12, Name = "Server12", City = "Joliet" },
         new(){ ServerId = 13, Name = "Server13", City = "Peoria" },
         new(){ ServerId = 14, Name = "Server14", City = "Peoria" },
-        new(){ ServerId = 14, Name = "Server15", City = "Peoria" },
+        new(){ ServerId = 15, Name = "Server15", City = "Peoria" },
         new(){ ServerId = 16, Name = "Server16", City = "Peoria" }
     ];
 
@@ -31,7 +31,7 @@ public static class ServersRepository
 
     public static void AddServer(Server server)
     {
-        var maxId = _servers.Max(x => x.ServerId);
+        var maxId = _servers.Count;
         server.ServerId = maxId + 1;
         _servers.Add(server);
     }

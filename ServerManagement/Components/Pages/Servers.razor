@@ -27,6 +27,10 @@
             @server.Name in @server.City is <span style="color:@(server.IsOnline?"green":"red")">@(server.IsOnline ? "online" : "offline")</span>
             &nbsp;
             <a href="/servers/@server.ServerId" class="btn btn-link">Edit</a>
+            &nbsp;
+            <EditForm Model="server" FormName="@($"formServer-{server.ServerId}")" OnValidSubmit="@(() => {DeleteServer(server.ServerId);})">
+                <button type="submit" class="btn btn-primary">Delete</button>
+            </EditForm>
         </li>
     }
 </ul>
@@ -34,4 +38,10 @@
 @code {
     // private List<Server> servers = ServersRepository.GetServersByCity("Chicago");
     private List<Server> servers = ServersRepository.GetServres();
+
+    private void DeleteServer(int ServerId)
+    {
+        if (ServerId > 0)
+            ServersRepository.DeleteServer(ServerId);
+    }
 }
