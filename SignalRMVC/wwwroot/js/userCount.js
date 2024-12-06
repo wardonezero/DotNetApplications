@@ -5,6 +5,11 @@ connection.on("UpdateTotalViewers", (value) => {
     newCountSpan.innerText = value.toString();
 });
 
+connection.on("UpdateTotalUsers", (value) => {
+    var newCountSpan = document.getElementById("TotalUsersCounter");
+    newCountSpan.innerText = value.toString();
+});
+
 function newViewer() {
     connection.send("NewViewer");
 }
