@@ -1,4 +1,6 @@
-﻿var connection = new signalR.HubConnectionBuilder().withUrl("/usercount").build();
+﻿var connection = new signalR.HubConnectionBuilder()
+    //.configureLogging(signalR.LogLevel.None)
+    .withUrl("/usercount").build();
 
 connection.on("UpdateTotalViewers", (value) => {
     var newCountSpan = document.getElementById("TotalViewersCounter");
