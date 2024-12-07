@@ -28,5 +28,6 @@ app.MapControllerRoute(
     .WithStaticAssets();
 
 app.MapHub<UserCount>("/usercount");
+app.MapHub<DeathlyHallowsHub>("/deathlyhallows");
 
 app.Run();
