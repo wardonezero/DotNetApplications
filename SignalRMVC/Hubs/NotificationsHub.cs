@@ -4,8 +4,8 @@ namespace SignalRMVC.Hubs;
 
 public class NotificationsHub : Hub
 {
-    private int NotificationsCount;
-    private readonly List<string> Notifications = [];
+    private static int NotificationsCount;
+    private readonly static List<string> Notifications = [];
 
     public async Task SendNotification(string message)
     {
@@ -13,7 +13,7 @@ public class NotificationsHub : Hub
         {
             Notifications.Add(message);
             NotificationsCount = Notifications.Count;
-            await Clients.All.SendAsync("ReceiveNotification", message);
+            await GetNotifications();
         }
     }
 
