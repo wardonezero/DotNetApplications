@@ -20,8 +20,4 @@ function fulfilled() {
     });
 }
 
-function rejected() {
-
-}
-
-deathlyHallowsConnection.start().then(fulfilled, rejected);
+deathlyHallowsConnection.start().then(fulfilled);

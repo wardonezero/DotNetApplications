@@ -20,8 +20,4 @@ function fulfilled() {
     newViewer();
 }
 
-function rejected() {
-
-}
-
-connection.start().then(fulfilled, rejected);
+connection.start().then(fulfilled);

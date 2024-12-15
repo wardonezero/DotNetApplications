@@ -133,12 +133,4 @@ houseGroupConnection.on("SubscriptionStatus", (houseJoinedStatus, houseName, isS
     }
 });
 
-function fulfilled() {
-
-}
-
-function rejected() {
-
-}
-
-houseGroupConnection.start().then(fulfilled, rejected);
+houseGroupConnection.start();
