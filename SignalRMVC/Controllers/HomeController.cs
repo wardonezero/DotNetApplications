@@ -10,7 +10,7 @@ public class HomeController(IHubContext<DeathlyHallowsHub> deathlyHub) : Control
 {
     private readonly IHubContext<DeathlyHallowsHub> _deathlyHub = deathlyHub;
 
-    public async Task <IActionResult> DeathlyHallows(string type)
+    public async Task <IActionResult> VoteDeathlyHallows(string type)
     {
         try
         {
@@ -30,15 +30,17 @@ public class HomeController(IHubContext<DeathlyHallowsHub> deathlyHub) : Control
         }
         catch (ArgumentException)
         {
-            return View("Index");
+            return View("DeathlyHallows");
         }
-        return View("Index");
+        return View("DeathlyHallows");
 
     }
 
     public IActionResult Index() => View();
 
     public IActionResult Privacy() => View();
+    public IActionResult DeathlyHallows() => View();
+    public IActionResult HarryPotter() => View();
 
     public IActionResult Notifications() => View();
 

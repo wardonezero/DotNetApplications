@@ -22,10 +22,6 @@ document.getElementById("sendButton").addEventListener("click", function (event)
     event.preventDefault();
 });
 
-
-
-
-
 notificationsConnection.start().then(function () {
     notificationsConnection.send("GetNotifications");
     document.getElementById("sendButton").disabled = false;
