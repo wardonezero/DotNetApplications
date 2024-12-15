@@ -4,6 +4,7 @@ let btn_un_gryffindor = document.getElementById("btn_un_gryffindor");
 let btn_un_slytherin = document.getElementById("btn_un_slytherin");
 let btn_un_hufflepuff = document.getElementById("btn_un_hufflepuff");
 let btn_un_ravenclaw = document.getElementById("btn_un_ravenclaw");
+
 let btn_gryffindor = document.getElementById("btn_gryffindor");
 let btn_slytherin = document.getElementById("btn_slytherin");
 let btn_hufflepuff = document.getElementById("btn_hufflepuff");
@@ -49,6 +50,54 @@ btn_un_hufflepuff.addEventListener("click", function (event) {
 btn_un_ravenclaw.addEventListener("click", function (event) {
     houseGroupConnection.send("UnsubscribeFromHouse", "Ravenclaw");
     event.preventDefault();
+});
+
+houseGroupConnection.on("SubscriptionStatus", (houseJoinedStatus, houseName, isSubscribed) => {
+    lbl_houseJoined.innerText = houseJoinedStatus;
+    if (isSubscribed) {
+        switch (houseName) {
+            case "Gryffindor":
+                btn_gryffindor.style.display = "none";
+                btn_un_gryffindor.style.display = "";
+                break;
+            case "Slytherin":
+                btn_slytherin.style.display = "none";
+                btn_un_slytherin.style.display = "";
+                break;
+            case "Hufflepuff":
+                btn_hufflepuff.style.display = "none";
+                btn_un_hufflepuff.style.display = "";
+                break;
+            case "Ravenclaw":
+                btn_ravenclaw.style.display = "none";
+                btn_un_ravenclaw.style.display = "";
+                break;
+            default:
+                break;
+        }
+    }
+    else {
+        switch (houseName) {
+            case "Gryffindor":
+                btn_gryffindor.style.display = "";
+                btn_un_gryffindor.style.display = "none";
+                break;
+            case "Slytherin":
+                btn_slytherin.style.display = "";
+                btn_un_slytherin.style.display = "none";
+                break;
+            case "Hufflepuff":
+                btn_hufflepuff.style.display = "";
+                btn_un_hufflepuff.style.display = "none";
+                break;
+            case "Ravenclaw":
+                btn_ravenclaw.style.display = "";
+                btn_un_ravenclaw.style.display = "none";
+                break;
+            default:
+                break;
+        }
+    }
 });
 
 function fulfilled() {

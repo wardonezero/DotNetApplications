@@ -11,6 +11,15 @@ public class HouseGroupHub : Hub
         if (!HouseGroups.Contains(Context.ConnectionId + ":" + houseName))
         {
             HouseGroups.Add(Context.ConnectionId + ":" + houseName);
+            string houseList = "";
+            foreach (var str in HouseGroups)
+            {
+                if (str.Contains(Context.ConnectionId))
+                {
+                    houseList += str.Split(':')[1] + " ";
+                }
+            }
+            await Clients.Caller.SendAsync("SubscriptionStatus", houseList, houseName, true);
 
             await Groups.AddToGroupAsync(Context.ConnectionId, houseName);
         }
@@ -21,6 +30,16 @@ public class HouseGroupHub : Hub
         if (HouseGroups.Contains(Context.ConnectionId + ":" + houseName))
         {
             HouseGroups.Remove(Context.ConnectionId + ":" + houseName);
+
+            string houseList = "";
+            foreach (var str in HouseGroups)
+            {
+                if (str.Contains(Context.ConnectionId))
+                {
+                    houseList += str.Split(':')[1] + " ";
+                }
+            }
+            await Clients.Caller.SendAsync("SubscriptionStatus", houseList, houseName, false);
 
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, houseName);
         }
