@@ -52,6 +52,28 @@ btn_un_ravenclaw.addEventListener("click", function (event) {
     event.preventDefault();
 });
 
+
+trigger_gryffindor.addEventListener("click", function (event) {
+    houseGroupConnection.send("TriggerNotification", "Gryffindor");
+    event.preventDefault();
+});
+trigger_slytherin.addEventListener("click", function (event) {
+    houseGroupConnection.send("TriggerNotification", "Slytherin");
+    event.preventDefault();
+});
+trigger_hufflepuff.addEventListener("click", function (event) {
+    houseGroupConnection.send("TriggerNotification", "Hufflepuff");
+    event.preventDefault();
+});
+trigger_ravenclaw.addEventListener("click", function (event) {
+    houseGroupConnection.send("TriggerNotification", "Ravenclaw");
+    event.preventDefault();
+});
+
+houseGroupConnection.on("TriggerHouseNotification", (houseName) => {
+    toastr.warning(`New notification for ${houseName}`)
+})
+
 houseGroupConnection.on("MemberAddedToHouse", (houseName) => {
     toastr.warning(`Member has subscribed to the ${houseName}`)
 })
