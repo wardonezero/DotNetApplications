@@ -4,7 +4,7 @@ namespace SignalRMVC.Hubs;
 
 public class HouseGroupHub : Hub
 {
-    public static List<string> HouseGroups = new List<string>();
+    private static readonly List<string> HouseGroups = [];
 
     public async Task SubscribeToHouse(string houseName)
     {
@@ -20,6 +20,8 @@ public class HouseGroupHub : Hub
                 }
             }
             await Clients.Caller.SendAsync("SubscriptionStatus", houseList, houseName, true);
+
+            await Clients.Others.SendAsync("MemberAddedToHouse", houseName);
 
             await Groups.AddToGroupAsync(Context.ConnectionId, houseName);
         }
@@ -40,6 +42,8 @@ public class HouseGroupHub : Hub
                 }
             }
             await Clients.Caller.SendAsync("SubscriptionStatus", houseList, houseName, false);
+
+            await Clients.Others.SendAsync("MemberRemovedFromHouse", houseName);
 
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, houseName);
         }

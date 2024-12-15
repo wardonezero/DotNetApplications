@@ -52,6 +52,14 @@ btn_un_ravenclaw.addEventListener("click", function (event) {
     event.preventDefault();
 });
 
+houseGroupConnection.on("MemberAddedToHouse", (houseName) => {
+    toastr.warning(`Member has subscribed to the ${houseName}`)
+})
+
+houseGroupConnection.on("MemberRemovedFromHouse", (houseName) => {
+    toastr.warning(`Member has unsubscribed from the ${houseName}`)
+})
+
 houseGroupConnection.on("SubscriptionStatus", (houseJoinedStatus, houseName, isSubscribed) => {
     lbl_houseJoined.innerText = houseJoinedStatus;
     if (isSubscribed) {
@@ -75,6 +83,7 @@ houseGroupConnection.on("SubscriptionStatus", (houseJoinedStatus, houseName, isS
             default:
                 break;
         }
+        toastr.success(`You have subscribed successfully. ${houseName}`)
     }
     else {
         switch (houseName) {
@@ -97,6 +106,8 @@ houseGroupConnection.on("SubscriptionStatus", (houseJoinedStatus, houseName, isS
             default:
                 break;
         }
+        toastr.success(`You have unsubscribed successfully. ${houseName}`)
+
     }
 });
 
