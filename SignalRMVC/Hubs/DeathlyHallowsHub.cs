@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using SignalRMVC.Models;
 
 namespace SignalRMVC.Hubs;
 

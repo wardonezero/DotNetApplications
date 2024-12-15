@@ -1,4 +1,4 @@
-﻿namespace SignalRMVC;
+﻿namespace SignalRMVC.Models;
 
 public static class StaticDetails
 {
