@@ -16,7 +16,7 @@ let trigger_hufflepuff = document.getElementById("trigger_hufflepuff");
 let trigger_ravenclaw = document.getElementById("trigger_ravenclaw");
 
 var houseGroupConnection = new signalR.HubConnectionBuilder()
-    .withUrl("/housegrouphub").build();
+    .withUrl("/housegroupHub").build();
 
 btn_gryffindor.addEventListener("click", function (event) {
     houseGroupConnection.send("SubscribeToHouse", "Gryffindor");

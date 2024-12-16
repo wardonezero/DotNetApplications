@@ -39,10 +39,14 @@ public class HomeController(IHubContext<DeathlyHallowsHub> deathlyHub) : Control
     public IActionResult Index() => View();
 
     public IActionResult Privacy() => View();
+
     public IActionResult DeathlyHallows() => View();
+
     public IActionResult HarryPotter() => View();
 
     public IActionResult Notifications() => View();
+
+    public IActionResult BasicChat() => View();
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

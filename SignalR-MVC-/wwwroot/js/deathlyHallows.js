@@ -4,7 +4,7 @@ var wandCountSpan = document.getElementById("wandCounter");
 
 var deathlyHallowsConnection = new signalR.HubConnectionBuilder()
     //.configureLogging(signalR.LogLevel.None)
-    .withUrl("/deathlyhallows").build();
+    .withUrl("/deathlyhallowsHub").build();
 
 deathlyHallowsConnection.on("UpdateDeathlyhallowsCount", (cloak, stone, wand) => {
     cloakCountSpan.innerText = cloak.toString();
