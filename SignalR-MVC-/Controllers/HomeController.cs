@@ -1,9 +1,12 @@
 using System.Diagnostics;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using SignalRMVC.Data;
 using SignalRMVC.Hubs;
 using SignalRMVC.Models;
+using SignalRMVC.Models.ViewModels;
 
 namespace SignalRMVC.Controllers;
 
@@ -94,7 +97,17 @@ public class HomeController(IHubContext<DeathlyHallowsHub> deathlyHub,
         return Json(new { data = productList });
     }
 
-    public IActionResult AMessenger() => View();
+    [Authorize]
+    public IActionResult AMessenger()
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        ChatViewModel chatViewModel = new()
+        {
+            PrivateChats = _context.PrivateChats.ToList(),
+            UserId = userId
+        };
+        return View(chatViewModel);
+    }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
