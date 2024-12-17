@@ -10,10 +10,10 @@ function loadDataTable() {
             "url": "/Home/GetAllOrder"
         },
         "columns": [
-            { "data": "orderId", "width": "5%" },
-            { "data": "name", "width": "15%" },
-            { "data": "itemName", "width": "15%" },
-            { "data": "count", "width": "15%" },
+            { "data": "orderId", "width": "1rem" },
+            { "data": "name", "width": "20rem" },
+            { "data": "itemName", "width": "20rem" },
+            { "data": "count", "width": "1rem" },
             {
                 "data": "orderId",
                 "render": function (data) {
