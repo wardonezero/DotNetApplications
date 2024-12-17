@@ -13,7 +13,7 @@ namespace SignalRMVC.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20241217075948_privatechats")]
-    partial class privatechats
+    partial class Privatechats
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

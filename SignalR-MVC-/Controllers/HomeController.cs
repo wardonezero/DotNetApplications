@@ -103,7 +103,7 @@ public class HomeController(IHubContext<DeathlyHallowsHub> deathlyHub,
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         ChatViewModel chatViewModel = new()
         {
-            PrivateChats = _context.PrivateChats.ToList(),
+            PrivateChats = [.. _context.PrivateChats],
             UserId = userId
         };
         return View(chatViewModel);

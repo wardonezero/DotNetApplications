@@ -5,7 +5,7 @@
 namespace SignalRMVC.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class privatechats : Migration
+    public partial class Privatechats : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
