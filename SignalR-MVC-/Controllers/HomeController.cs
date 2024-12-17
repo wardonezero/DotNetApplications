@@ -7,10 +7,11 @@ using SignalRMVC.Models;
 
 namespace SignalRMVC.Controllers;
 
-public class HomeController(IHubContext<DeathlyHallowsHub> deathlyHub, ApplicationDbContext context) : Controller
+public class HomeController(IHubContext<DeathlyHallowsHub> deathlyHub, ApplicationDbContext context, IHubContext<OrderHub> orderHub) : Controller
 {
     private readonly IHubContext<DeathlyHallowsHub> _deathlyHub = deathlyHub;
     private readonly ApplicationDbContext _context = context;
+    private readonly IHubContext<OrderHub> _orderHub = orderHub;
 
     public async Task <IActionResult> VoteDeathlyHallows(string type)
     {
@@ -76,7 +77,8 @@ public class HomeController(IHubContext<DeathlyHallowsHub> deathlyHub, Applicati
     {
 
         _context.Orders.Add(order);
-        await _context.SaveChangesAsync();
+        _context.SaveChanges();
+        await _orderHub.Clients.All.SendAsync("ReceiveOrder");
         return RedirectToAction(nameof(Order));
     }
 

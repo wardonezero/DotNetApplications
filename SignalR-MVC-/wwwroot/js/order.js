@@ -29,3 +29,14 @@ function loadDataTable() {
         ]
     });
 }
+
+
+var orderConnection = new signalR.HubConnectionBuilder()
+    .withUrl("/orderHub").build();
+
+orderConnection.on("ReceiveOrder", () => {
+    dataTable.ajax.reload();
+    toastr.success("New Order Received");
+});
+
+orderConnection.start();
