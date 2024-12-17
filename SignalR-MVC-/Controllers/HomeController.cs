@@ -13,7 +13,13 @@ public class HomeController(IHubContext<DeathlyHallowsHub> deathlyHub, Applicati
     private readonly ApplicationDbContext _context = context;
     private readonly IHubContext<OrderHub> _orderHub = orderHub;
 
-    public async Task <IActionResult> VoteDeathlyHallows(string type)
+    public IActionResult Index() => View();
+
+    public IActionResult Privacy() => View();
+
+    public IActionResult DeathlyHallows() => View();
+
+    public async Task<IActionResult> VoteDeathlyHallows(string type)
     {
         try
         {
@@ -39,12 +45,6 @@ public class HomeController(IHubContext<DeathlyHallowsHub> deathlyHub, Applicati
 
     }
 
-    public IActionResult Index() => View();
-
-    public IActionResult Privacy() => View();
-
-    public IActionResult DeathlyHallows() => View();
-
     public IActionResult HarryPotter() => View();
 
     public IActionResult Notifications() => View();
@@ -57,8 +57,7 @@ public class HomeController(IHubContext<DeathlyHallowsHub> deathlyHub, Applicati
         string[] name = ["Charlotte", "Evelyn", "Ava", "Sophia", "Isabella"];
         string[] itemName = ["Pizza", "Hamburger", "Spaghetti", "Pancakes", "Sushi"];
 
-        Random rand = new();
-        // Generate a random index less than the size of the array.  
+        Random rand = new(); 
         int index = rand.Next(name.Length);
 
         Order order = new()
@@ -90,6 +89,8 @@ public class HomeController(IHubContext<DeathlyHallowsHub> deathlyHub, Applicati
         var productList = _context.Orders.ToList();
         return Json(new { data = productList });
     }
+
+    public IActionResult AMessenger() => View();
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
