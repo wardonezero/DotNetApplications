@@ -7,11 +7,15 @@ using SignalRMVC.Models;
 
 namespace SignalRMVC.Controllers;
 
-public class HomeController(IHubContext<DeathlyHallowsHub> deathlyHub, ApplicationDbContext context, IHubContext<OrderHub> orderHub) : Controller
+public class HomeController(IHubContext<DeathlyHallowsHub> deathlyHub,
+                            ApplicationDbContext context,
+                            IHubContext<OrderHub> orderHub,
+                            IHubContext<AMessengerHub> amessengerHub) : Controller
 {
     private readonly IHubContext<DeathlyHallowsHub> _deathlyHub = deathlyHub;
     private readonly ApplicationDbContext _context = context;
     private readonly IHubContext<OrderHub> _orderHub = orderHub;
+    private readonly IHubContext<AMessengerHub> _amessengerHub = amessengerHub;
 
     public IActionResult Index() => View();
 
@@ -57,7 +61,7 @@ public class HomeController(IHubContext<DeathlyHallowsHub> deathlyHub, Applicati
         string[] name = ["Charlotte", "Evelyn", "Ava", "Sophia", "Isabella"];
         string[] itemName = ["Pizza", "Hamburger", "Spaghetti", "Pancakes", "Sushi"];
 
-        Random rand = new(); 
+        Random rand = new();
         int index = rand.Next(name.Length);
 
         Order order = new()
