@@ -49,6 +49,6 @@ app.MapHub<HouseGroupHub>("/housegroupHub");
 app.MapHub<NotificationsHub>("/notificationsHub");
 app.MapHub<BasicChatHub>("/basicchatHub");
 app.MapHub<OrderHub>("/orderHub");
-app.MapHub<OrderHub>("/aMessengerHub");
+app.MapHub<AMessengerHub>("/aMessengerHub");
 
 app.Run();
