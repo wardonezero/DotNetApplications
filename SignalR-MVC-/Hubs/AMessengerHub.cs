@@ -72,6 +72,23 @@ public class AMessengerHub(ApplicationDbContext context) : Hub
         await Clients.All.SendAsync("ReciveDeletePrivateChat", deleted, selected, privateChatName, userName);
     }
 
+    public async Task SendPublicMessage(int chatId, string message, string chatName)
+    {
+        var userId = Context.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userName = _context.Users.FirstOrDefault(u => u.Id == userId)?.UserName;
+        await Clients.All.SendAsync("RecivePublicMessage", chatId, userId, userName, message, chatName);
+
+    }
+
+    public async Task SendPrivateMessage(string reciverId, string message, string reciverName)
+    {
+        var senderId = Context.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+        var senderName = _context.Users.FirstOrDefault(u => u.Id == senderId)?.UserName;
+        var users = new string[] { reciverId, senderId };
+        await Clients.Users(users).SendAsync("RecivePrivateMessage", senderId, senderName, reciverId, message, Guid.NewGuid(), reciverName);
+
+    }
+
     //public async Task SendMessageToAll(string user, string message)
     //{
     //    await Clients.All.SendAsync("ReceiveMessage", user, message);
@@ -116,7 +133,7 @@ public class AMessengerHub(ApplicationDbContext context) : Hub
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message+ "Error in HasUser");
+            Console.WriteLine(ex.Message + "Error in HasUser");
         }
         return false;
     }
@@ -134,7 +151,7 @@ public class AMessengerHub(ApplicationDbContext context) : Hub
             }
             else
             {
-                Users.Add(userId, new List<string> { connectionId });
+                Users.Add(userId, [connectionId]);
             }
         }
         else
@@ -143,6 +160,6 @@ public class AMessengerHub(ApplicationDbContext context) : Hub
         }
     }
 
-    public static List<string> OnlineUsers() => Users.Keys.ToList();
+    public static List<string> OnlineUsers() => [.. Users.Keys];
     #endregion
 }

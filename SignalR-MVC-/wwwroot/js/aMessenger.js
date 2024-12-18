@@ -21,6 +21,50 @@ aMessengerConnection.on("ReciveDeletePrivateChat", function (deleteddeleted, sel
     FillRoomDropDown();
 });
 
+aMessengerConnection.on("RecivePublicMessage", function (chatId, userId, userName, message, chatName) {
+    AddMessage(`[Public message ${chatName}] ${userName} - ${message}`);
+});
+
+aMessengerConnection.on("RecivePrivateMessage", function (senderId, senderName, reciverId, message, chatId, reciverName) {
+    AddMessage(`[Private message to ${reciverName}] ${senderName} - ${message}`);
+});
+
+function sendPublicMessage() {
+    let inputmessage = document.getElementById('txtPublicMessage');
+    let ddlSelRoom = document.getElementById('ddlSelRoom');
+    let chatId = ddlSelRoom.value;
+    let chatName = ddlSelRoom.options[ddlSelRoom.selectedIndex].text;
+    var message = inputmessage.value;
+    if (!message) {
+        return;
+    }
+    aMessengerConnection.send("SendPublicMessage", Number(chatId), message, chatName).then(() => {
+        console.log("Message sent successfully.");
+    })
+    .catch(err => {
+        console.error("Error sending message:", err);
+    });
+    inputmessage.value = '';
+}
+
+function sendPrivateMessage() {
+    let inputmessage = document.getElementById('txtPrivateMessage');
+    let ddlSelUser = document.getElementById('ddlSelUser');
+    let reciverId = ddlSelUser.value;
+    let reciverName = ddlSelUser.options[ddlSelUser.selectedIndex].text;
+    var message = inputmessage.value;
+    if (!message) {
+        return;
+    }
+    aMessengerConnection.send("SendPrivateMessage", reciverId, message, reciverName).then(() => {
+        console.log("Message sent successfully.");
+    })
+        .catch(err => {
+            console.error("Error sending message:", err);
+        });
+    inputmessage.value = '';
+}
+
 function AddNewRoom(maxChats) {
     let createRoomName = document.getElementById('createRoomName');
     var roomName = createRoomName.value;
@@ -137,4 +181,8 @@ function AddMessage(message) {
     ui.appendChild(li);
 }
 
-aMessengerConnection.start();
+aMessengerConnection.start().then(function () {
+    console.log("SignalR connection established.");
+}).catch(function (err) {
+    return console.error(err.toString());
+});;
