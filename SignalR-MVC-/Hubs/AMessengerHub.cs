@@ -8,14 +8,16 @@ namespace SignalRMVC.Hubs;
 public class AMessengerHub(ApplicationDbContext context) : Hub
 {
     private readonly ApplicationDbContext _context = context;
-    public override async Task OnConnectedAsync()
+    public override Task OnConnectedAsync()
     {
         var userId = Context.User?.FindFirstValue(ClaimTypes.NameIdentifier);
         if (!string.IsNullOrEmpty(userId))
         {
             var userName = _context.Users.FirstOrDefault(u => u.Id == userId)?.UserName;
-            await Clients.Users(OnlineUsers()).SendAsync("ReciveUserConnection",userId,userName);
+            Clients.Users(OnlineUsers()).SendAsync("ReciveUserConnection", userId, userName,HasUser(userId));
+            AddUserConnection(userId, Context.ConnectionId);
         }
+        return base.OnConnectedAsync();
     }
 
     //public async Task SendMessageToAll(string user, string message)
@@ -49,6 +51,22 @@ public class AMessengerHub(ApplicationDbContext context) : Hub
 
         return false;
     }
+    public static bool HasUser(string UserId)
+    {
+        try
+        {
+            if (Users.TryGetValue(UserId, out List<string>? value))
+            {
+                return value.Any();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+
+        return false;
+    }
     public static void AddUserConnection(string UserId, string ConnectionId)
     {
 
@@ -61,9 +79,6 @@ public class AMessengerHub(ApplicationDbContext context) : Hub
         }
     }
 
-    public static List<string> OnlineUsers()
-    {
-        return [.. Users.Keys];
-    }
+    public static List<string> OnlineUsers() => [.. Users.Keys];
     #endregion
 }
