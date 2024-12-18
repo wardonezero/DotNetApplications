@@ -13,22 +13,18 @@ aMessengerConnection.on("ReciveUserDisconnection", function (userId, userName) {
 
 aMessengerConnection.on("ReciveAddPrivateChat", function (maxChats, privateChatId, privateChatName, userId, userName) {
     AddMessage(`User ${userName} created private chat ${privateChatName}`);
+    FillRoomDropDown();
 });
 
-function AddMessage(message) {
-    if (message == null && message == '') {
-        return;
-    }
-    let ui = document.getElementById('messagesList');
-    let li = document.createElement('li');
-    li.innerHTML = message;
-    ui.appendChild(li);
-}
+aMessengerConnection.on("ReciveDeletePrivateChat", function (deleteddeleted, selected, privateChatName, userName) {
+    AddMessage(`User ${userName} deleted private chat ${privateChatName}`);
+    FillRoomDropDown();
+});
 
 function AddNewRoom(maxChats) {
     let createRoomName = document.getElementById('createRoomName');
     var roomName = createRoomName.value;
-    if (roomName == null && roomName == '') {
+    if (!roomName) {
         return;
     }
     /*POST*/
@@ -37,16 +33,48 @@ function AddNewRoom(maxChats) {
         dataType: "json",
         type: "POST",
         contentType: 'application/json; charset=utf-8',
-        data: JSON.stringify({ id: 0, name: roomName }),
+        data: JSON.stringify({ ChatId: 0, ChatName: roomName }),
         async: true,
         processData: false,
         cache: false,
         success: function (json) {
             /*ADD ROOM COMPLETED SUCCESSFULLY*/
-            aMessengerConnection.send("AddPrivateChat", maxChats, json.id, json.name);
+            aMessengerConnection.send("AddPrivateChat", maxChats, json.chatId, json.chatName);
             createRoomName.value = '';
         },
         error: function (xhr) {
+            console.error('Response:', xhr.responseText);
+            alert('error in AddNewRoom');
+        }
+    })
+}
+
+function DeleteRoom() {
+    let deleteRoom = document.getElementById('ddlDelRoom');
+    var roomName = deleteRoom.options[deleteRoom.selectedIndex].text;
+    let text = `Are you sure you want to delete ${roomName} chat ?`;
+    if (confirm(text) == false) {
+        return;
+    }
+    if (!roomName) {
+        return;
+    }
+    let chatId = deleteRoom.value;
+    $.ajax({
+        url: `/PrivateChats/DeletePrivateChat/${chatId}`,
+        dataType: "json",
+        type: "DELETE",
+        contentType: 'application/json; charset=utf-8',
+        async: true,
+        processData: false,
+        cache: false,
+        success: function (json) {
+            /*ADD ROOM COMPLETED SUCCESSFULLY*/
+            aMessengerConnection.send("DeletePrivateChat", json.deleted, json.selected, roomName);
+            FillRoomDropDown();
+        },
+        error: function (xhr) {
+            console.error('Response:', xhr.responseText);
             alert('error in AddNewRoom');
         }
     })
@@ -68,7 +96,6 @@ function FillUserDropDown() {
                 newOption.value = item.id;
                 ddlSelUser.add(newOption);
             });
-
         })
         .fail(function (jqxhr, textStatus, error) {
             var err = textStatus + ", " + error;
@@ -85,12 +112,12 @@ function FillRoomDropDown() {
             ddlSelRoom.innerText = null;
             json.forEach(function (item) {
                 var newOption = document.createElement("option");
-                newOption.text = item.name;
-                newOption.value = item.id;
+                newOption.text = item.chatName;
+                newOption.value = item.chatId;
                 ddlDelRoom.add(newOption);
                 var newOption1 = document.createElement("option");
-                newOption1.text = item.name;
-                newOption1.value = item.id;
+                newOption1.text = item.chatName;
+                newOption1.value = item.chatId;
                 ddlSelRoom.add(newOption1);
             });
         })
@@ -98,6 +125,16 @@ function FillRoomDropDown() {
             var err = textStatus + ", " + error;
             console.log("Request Failed: " + jqxhr.detail);
         });
+}
+
+function AddMessage(message) {
+    if (message == null && message == '') {
+        return;
+    }
+    let ui = document.getElementById('messagesList');
+    let li = document.createElement('li');
+    li.innerHTML = message;
+    ui.appendChild(li);
 }
 
 aMessengerConnection.start();

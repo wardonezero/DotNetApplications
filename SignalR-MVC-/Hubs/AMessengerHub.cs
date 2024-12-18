@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.SignalR;
 using SignalRMVC.Data;
 using System.Security.Claims;
 
@@ -64,6 +63,13 @@ public class AMessengerHub(ApplicationDbContext context) : Hub
         var userId = Context.User?.FindFirstValue(ClaimTypes.NameIdentifier);
         var userName = _context.Users.FirstOrDefault(u => u.Id == userId)?.UserName;
         await Clients.All.SendAsync("ReciveAddPrivateChat", maxChats, privateChatId, privateChatName, userId, userName);
+    }
+
+    public async Task DeletePrivateChat(int deleted, int selected, string privateChatName)
+    {
+        var userId = Context.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userName = _context.Users.FirstOrDefault(u => u.Id == userId)?.UserName;
+        await Clients.All.SendAsync("ReciveDeletePrivateChat", deleted, selected, privateChatName, userName);
     }
 
     //public async Task SendMessageToAll(string user, string message)
