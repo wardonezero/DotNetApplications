@@ -14,10 +14,56 @@ public class AMessengerHub(ApplicationDbContext context) : Hub
         if (!string.IsNullOrEmpty(userId))
         {
             var userName = _context.Users.FirstOrDefault(u => u.Id == userId)?.UserName;
-            Clients.Users(OnlineUsers()).SendAsync("ReciveUserConnection", userId, userName,HasUser(userId));
             AddUserConnection(userId, Context.ConnectionId);
+            Clients.Users(OnlineUsers()).SendAsync("ReciveUserConnection", userId, userName);
         }
         return base.OnConnectedAsync();
+    }
+
+    public override Task OnDisconnectedAsync(Exception exception)
+    {
+        var userId = Context.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (!string.IsNullOrEmpty(userId))
+        {
+            if (Users.ContainsKey(userId))
+            {
+                Users[userId].Remove(Context.ConnectionId);
+
+                if (!Users[userId].Any())
+                {
+                    Users.Remove(userId);
+                    var userName = _context.Users.FirstOrDefault(u => u.Id == userId)?.UserName;
+                    Clients.Users(OnlineUsers()).SendAsync("ReciveUserDisconnection", userId, userName);
+                }
+            }
+        }
+
+        return base.OnDisconnectedAsync(exception);
+
+        /*//if (HasUserConnection(userId, Context.ConnectionId))
+        //{
+        //    var UserConnections = Users[userId];
+        //    UserConnections.Remove(userId);
+        //    Users.Remove(Context.ConnectionId);
+        //    if (UserConnections.Any())
+        //        Users.Add(userId, UserConnections);
+        //}
+
+        //if (!string.IsNullOrEmpty(userId))
+        //{
+        //    var userName = _context.Users.FirstOrDefault(u => u.Id == userId)?.UserName;
+        //    Clients.Users(OnlineUsers()).SendAsync("ReciveUserDisconnection", userId, userName);
+        //    //AddUserConnection(userId, Context.ConnectionId);
+        //}
+        //return base.OnDisconnectedAsync(exception);*/
+    }
+
+    public async Task AddPrivateChat(int maxChats, int privateChatId, string privateChatName)
+    {
+        var userId = Context.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userName = _context.Users.FirstOrDefault(u => u.Id == userId)?.UserName;
+        await Clients.All.SendAsync("ReciveAddPrivateChat", maxChats, privateChatId, privateChatName, userId, userName);
     }
 
     //public async Task SendMessageToAll(string user, string message)
@@ -34,51 +80,63 @@ public class AMessengerHub(ApplicationDbContext context) : Hub
     //    }
     //}
     #region HubConnections
-    private static readonly Dictionary<string, List<string>> Users = [];
-    public static bool HasUserConnection(string UserId, string ConnectionId)
+    public static Dictionary<string, List<string>> Users = [];
+
+    public static bool HasUserConnection(string userId, string connectionId)
     {
-        try
+        if (!string.IsNullOrEmpty(userId) && Users.ContainsKey(userId))
         {
-            if (Users.TryGetValue(UserId, out List<string>? value))
-            {
-                return value.Any(p => p.Contains(ConnectionId));
-            }
+            return Users[userId].Contains(connectionId);
+        }
+        return false;
+        /*try
+        {
+            if (Users.ContainsKey(userId))
+                return Users[userId].Any(p => p.Contains(connectionId));
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            Console.WriteLine(ex.Message + " Error in HasUserConnection");
         }
-
-        return false;
+        return false;*/
     }
+
     public static bool HasUser(string UserId)
     {
         try
         {
-            if (Users.TryGetValue(UserId, out List<string>? value))
-            {
-                return value.Any();
-            }
+            if (Users.ContainsKey(UserId))
+                return Users[UserId].Any();
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            Console.WriteLine(ex.Message+ "Error in HasUser");
         }
-
         return false;
     }
-    public static void AddUserConnection(string UserId, string ConnectionId)
-    {
 
-        if (!string.IsNullOrEmpty(UserId) && !HasUserConnection(UserId, ConnectionId))
+    public static void AddUserConnection(string userId, string connectionId)
+    {
+        if (!string.IsNullOrEmpty(userId))
         {
-            if (Users.TryGetValue(UserId, out List<string>? value))
-                value.Add(ConnectionId);
+            if (Users.ContainsKey(userId))
+            {
+                if (!Users[userId].Contains(connectionId))
+                {
+                    Users[userId].Add(connectionId);
+                }
+            }
             else
-                Users.Add(UserId, [ConnectionId]);
+            {
+                Users.Add(userId, new List<string> { connectionId });
+            }
+        }
+        else
+        {
+            Console.WriteLine("Error in AddUserConnection");
         }
     }
 
-    public static List<string> OnlineUsers() => [.. Users.Keys];
+    public static List<string> OnlineUsers() => Users.Keys.ToList();
     #endregion
 }

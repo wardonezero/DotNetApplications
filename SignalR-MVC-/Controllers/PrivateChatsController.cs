@@ -23,6 +23,8 @@ public class PrivateChatsController(ApplicationDbContext context) : ControllerBa
     [Route("/[controller]/GetPrivateChats")]
     public async Task<ActionResult<IEnumerable<PrivateChat>>> GetPrivateChats()
     {
+        if (_context.PrivateChats == null)
+            return NotFound();
         return await _context.PrivateChats.ToListAsync();
     }
 
@@ -31,12 +33,13 @@ public class PrivateChatsController(ApplicationDbContext context) : ControllerBa
     public async Task<ActionResult<IEnumerable<object>>> GetPrivateChatUser()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var users = await _context.Set<IdentityUser>().ToListAsync();
-        if(users is null) return NotFound();
-        return users.Where(u => u.Id != userId).Select(u => new { u.Id, u.UserName}).ToList();
+        var users = await _context.Users.ToListAsync();
+        if (users is null)
+            return NotFound();
+        return users.Where(u => u.Id != userId).Select(u => new { u.Id, u.UserName }).ToList();
     }
 
-    // GET: api/PrivateChats/5
+    /*// GET: api/PrivateChats/5
     //[HttpGet("{id}")]
     //public async Task<ActionResult<PrivateChat>> GetPrivateChat(int id)
     //{
@@ -79,7 +82,7 @@ public class PrivateChatsController(ApplicationDbContext context) : ControllerBa
     //    }
 
     //    return NoContent();
-    //}
+    //}*/
 
     // POST: api/PrivateChats
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -87,6 +90,8 @@ public class PrivateChatsController(ApplicationDbContext context) : ControllerBa
     [Route("/[controller]/PostPrivateChat")]
     public async Task<ActionResult<PrivateChat>> PostPrivateChat(PrivateChat privateChat)
     {
+        if (_context.PrivateChats == null)
+            return Problem("Entity set 'ApplicationDbContext.PrivateChats' is null");
         _context.PrivateChats.Add(privateChat);
         await _context.SaveChangesAsync();
 
@@ -98,16 +103,17 @@ public class PrivateChatsController(ApplicationDbContext context) : ControllerBa
     [Route("/[controller]/DeletePrivateChat/{id}")]
     public async Task<IActionResult> DeletePrivateChat(int id)
     {
+        if (_context.PrivateChats == null)
+            return NotFound();
+
         var privateChat = await _context.PrivateChats.FindAsync(id);
         if (privateChat == null)
-        {
             return NotFound();
-        }
 
         _context.PrivateChats.Remove(privateChat);
         await _context.SaveChangesAsync();
-
-        return NoContent();
+        var chat = await _context.PrivateChats.FirstOrDefaultAsync();
+        return Ok(new { deleted = id, selected = (chat == null ? 0 : chat.ChatId) });
     }
 
     //private bool PrivateChatExists(int id)

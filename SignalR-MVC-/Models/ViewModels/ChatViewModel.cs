@@ -2,7 +2,7 @@
 
 public class ChatViewModel
 {
-    public const int MaxPrivateChatsAllowed = 4;
+    public int MaxPrivateChatsAllowed { get; set; } = 4;
     public IList<PrivateChat> PrivateChats { get; set; }
     public string? UserId { get; set; }
     public bool AllowAddPrivateChat => PrivateChats == null || PrivateChats.Count < MaxPrivateChatsAllowed;
