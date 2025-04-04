@@ -1,0 +1,14 @@
+/home/edward/Documents/DotNetApplications/DotNetDebugging/bin/Release/net9.0/DotNetDebugging
+/home/edward/Documents/DotNetApplications/DotNetDebugging/bin/Release/net9.0/DotNetDebugging.deps.json
+/home/edward/Documents/DotNetApplications/DotNetDebugging/bin/Release/net9.0/DotNetDebugging.runtimeconfig.json
+/home/edward/Documents/DotNetApplications/DotNetDebugging/bin/Release/net9.0/DotNetDebugging.dll
+/home/edward/Documents/DotNetApplications/DotNetDebugging/bin/Release/net9.0/DotNetDebugging.pdb
+/home/edward/Documents/DotNetApplications/DotNetDebugging/obj/Release/net9.0/DotNetDebugging.GeneratedMSBuildEditorConfig.editorconfig
+/home/edward/Documents/DotNetApplications/DotNetDebugging/obj/Release/net9.0/DotNetDebugging.AssemblyInfoInputs.cache
+/home/edward/Documents/DotNetApplications/DotNetDebugging/obj/Release/net9.0/DotNetDebugging.AssemblyInfo.cs
+/home/edward/Documents/DotNetApplications/DotNetDebugging/obj/Release/net9.0/DotNetDebugging.csproj.CoreCompileInputs.cache
+/home/edward/Documents/DotNetApplications/DotNetDebugging/obj/Release/net9.0/DotNetDebugging.dll
+/home/edward/Documents/DotNetApplications/DotNetDebugging/obj/Release/net9.0/refint/DotNetDebugging.dll
+/home/edward/Documents/DotNetApplications/DotNetDebugging/obj/Release/net9.0/DotNetDebugging.pdb
+/home/edward/Documents/DotNetApplications/DotNetDebugging/obj/Release/net9.0/DotNetDebugging.genruntimeconfig.cache
+/home/edward/Documents/DotNetApplications/DotNetDebugging/obj/Release/net9.0/ref/DotNetDebugging.dll
