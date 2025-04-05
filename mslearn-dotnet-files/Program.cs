@@ -7,7 +7,7 @@ var storesDirectory = Path.Combine(currentDirectory, "stores");
 var salesTotalDir = Path.Combine(currentDirectory, "salesTotalDir");
 Directory.CreateDirectory(salesTotalDir);
 
-// var salesFiles = FindFiles("stores");1
+// var salesFiles = FindFiles("stores");
 var salesFiles = FindFiles(storesDirectory);
 
 var salesTotal = CalculateSalesTotal(salesFiles);
