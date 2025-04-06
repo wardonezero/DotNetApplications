@@ -1,0 +1,6 @@
+@NicksPizza_HostAddress = http://localhost:5287
+
+GET {{NicksPizza_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

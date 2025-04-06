@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "AfpbdofB34Q=",
+  "success": true,
+  "projectFilePath": "/home/edward/Documents/DotNetApplications/NicksPizza/NicksPizza.csproj",
+  "expectedPackageFiles": [
+    "/home/edward/.nuget/packages/microsoft.aspnetcore.openapi/9.0.3/microsoft.aspnetcore.openapi.9.0.3.nupkg.sha512",
+    "/home/edward/.nuget/packages/microsoft.openapi/1.6.17/microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
