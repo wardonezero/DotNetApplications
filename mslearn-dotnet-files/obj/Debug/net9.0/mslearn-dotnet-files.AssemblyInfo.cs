@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("mslearn-dotnet-files")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+52a268c14939ab0e2293eadb22db301ab2dfb054")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+166d9cc3715cf4b44662047986ce06859e040255")]
 [assembly: System.Reflection.AssemblyProductAttribute("mslearn-dotnet-files")]
 [assembly: System.Reflection.AssemblyTitleAttribute("mslearn-dotnet-files")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
