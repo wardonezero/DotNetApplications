@@ -14,26 +14,27 @@ public class PizzaController : ControllerBase
 
     // GET all action
     [HttpGet]
-    public ActionResult<LinkedList<Pizza>> GetAll() =>
-        PizzaService.GetAll();
+    // public ActionResult<LinkedList<Pizza>> GetAll() =>
+        // PizzaService.GetAll();
 
     // GET by Id action
     [HttpGet("{id}")]
     public ActionResult<Pizza> Get(int id)
     {
-        var pizza = PizzaService.Get(id);
+        // var pizza = PizzaService.Get(id);
 
-        if (pizza == null)
-            return NotFound();
+        // if (pizza == null)
+        //     return NotFound();
 
-        return pizza;
+        // return pizza;
+        return NotFound();
     }
 
     // POST action
     [HttpPost]
     public IActionResult Create(Pizza pizza)
     {
-        PizzaService.Add(pizza);
+        // PizzaService.Add(pizza);
         return CreatedAtAction(nameof(Get), new { id = pizza.Id }, pizza);
     }
 
@@ -41,14 +42,14 @@ public class PizzaController : ControllerBase
     [HttpPut("{id}")]
     public IActionResult Update(int id, Pizza pizza)
     {
-        if (id != pizza.Id)
-            return BadRequest();
+        // if (id != pizza.Id)
+        //     return BadRequest();
 
-        var existingPizza = PizzaService.Get(id);
-        if (existingPizza is null)
-            return NotFound();
+        // var existingPizza = PizzaService.Get(id);
+        // if (existingPizza is null)
+        //     return NotFound();
 
-        PizzaService.Update(pizza);
+        // PizzaService.Update(pizza);
 
         return NoContent();
     }
@@ -57,12 +58,12 @@ public class PizzaController : ControllerBase
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        var pizza = PizzaService.Get(id);
+        // var pizza = PizzaService.Get(id);
 
-        if (pizza is null)
-            return NotFound();
+        // if (pizza is null)
+        //     return NotFound();
 
-        PizzaService.Delete(id);
+        // PizzaService.Delete(id);
 
         return NoContent();
     }

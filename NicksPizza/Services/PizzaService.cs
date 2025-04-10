@@ -1,44 +1,45 @@
 using NicksPizza.Models;
+using NicksPizza.Data;
 
 namespace NicksPizza.Services;
 
-public static class PizzaService
-{
-    static LinkedList<Pizza> Pizzas { get; } = new();
-    static int nextId = 3;
-
-    static PizzaService()
+ public class PizzaService
     {
-        Pizzas.AddLast(new Pizza { Id = 1, Name = "Italian", IsGlutenFree = false });
-        Pizzas.AddLast(new Pizza { Id = 2, Name = "Veggie", IsGlutenFree = true });
+        private readonly PizzaContext _context = default!;
+
+        public PizzaService(PizzaContext context) 
+        {
+            _context = context;
+        }
+        
+        public IList<Pizza> GetPizzas()
+        {
+            if(_context.Pizzas != null)
+            {
+                return _context.Pizzas.ToList();
+            }
+            return new List<Pizza>();
+        }
+
+        public void AddPizza(Pizza pizza)
+        {
+            if (_context.Pizzas != null)
+            {
+                _context.Pizzas.Add(pizza);
+                _context.SaveChanges();
+            }
+        }
+
+        public void DeletePizza(int id)
+        {
+            if (_context.Pizzas != null)
+            {
+                var pizza = _context.Pizzas.Find(id);
+                if (pizza != null)
+                {
+                    _context.Pizzas.Remove(pizza);
+                    _context.SaveChanges();
+                }
+            }            
+        } 
     }
-
-    public static LinkedList<Pizza> GetAll() => Pizzas;
-
-    public static Pizza? Get(int id) => Pizzas.FirstOrDefault(p => p.Id == id);
-
-    public static void Add(Pizza pizza)
-    {
-        pizza.Id = nextId++;
-        Pizzas.AddLast(pizza);
-    }
-
-    public static void Delete(int id)
-    {
-        var pizza = Get(id);
-        if (pizza is null)
-            return;
-
-        Pizzas.Remove(pizza);
-    }
-
-    public static void Update(Pizza pizza)
-    {
-        var pizzaNode = Pizzas.FirstOrDefault(item => item.Id == pizza.Id);
-        if (pizzaNode is null)
-            return;
-
-        pizzaNode.Name = pizza.Name;
-        pizzaNode.IsGlutenFree = pizza.IsGlutenFree;
-    }
-}
